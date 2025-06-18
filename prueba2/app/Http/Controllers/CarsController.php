@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cars;
+use App\Models\Routes;
 use Illuminate\Http\Request;
 
 class CarsController extends Controller
@@ -14,72 +15,47 @@ class CarsController extends Controller
      */
     public function index()
     {
-        //
+        $cars = Cars::all();
+        $RouteMayor = Route10;s
+        return view("cars.index")->with("cars", $cars);
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $cars = new Cars;
+        $cars->id_type_car = $request->id_type_car;
+        $cars->id_route = $request->id_route;
+        $cars->driver = $request->driver;
+        $cars->save();
+        return redirect()->route("cars.index");
+        
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cars  $cars
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cars $cars)
+    public function edit($id)
     {
-        //
+        $cars = Cars::find($id);
+        return view("cars.edit")->with("cars", $cars);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cars  $cars
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cars $cars)
+    
+    public function update(Request $request,$id)
     {
-        //
+        $cars = Cars::find($id);
+        $cars->id_type_car = $request->id_type_car;
+        $cars->id_route = $request->id_route;
+        $cars->driver = $request->driver;
+        $cars->save();
+        return redirect()->route("cars.index");
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cars  $cars
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Cars $cars)
+    public function destroy($id)
     {
-        //
-    }
+        $cars = Cars::find($id);
+        $cars->delete();
+        return redirect()->route("cars.index");
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Cars  $cars
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Cars $cars)
-    {
-        //
+
     }
 }
